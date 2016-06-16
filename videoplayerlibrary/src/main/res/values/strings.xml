@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">VideoPlayerLibrary</string>
+    <string name="title_activity_video_player">VideoPlayerActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
