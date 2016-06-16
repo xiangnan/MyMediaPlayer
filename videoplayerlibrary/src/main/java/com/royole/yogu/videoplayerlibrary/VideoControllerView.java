@@ -5,7 +5,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -118,14 +120,14 @@ public class VideoControllerView extends FrameLayout {
 
     private View.OnClickListener mPauseListener = new View.OnClickListener() {
         public void onClick(View v) {
-            //doPauseResume();
+            doPauseResume();
             show(sDefaultTimeout);
         }
     };
 
     private View.OnClickListener mFullscreenListener = new View.OnClickListener() {
         public void onClick(View v) {
-            //doToggleFullscreen();
+            doToggleFullscreen();
             show(sDefaultTimeout);
         }
     };
@@ -191,9 +193,71 @@ public class VideoControllerView extends FrameLayout {
             mHandler.sendEmptyMessage(SHOW_PROGRESS);
         }
     };
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        show(sDefaultTimeout);
+        return true;
+    }
+
+    @Override
+    public boolean onTrackballEvent(MotionEvent ev) {
+        show(sDefaultTimeout);
+        return false;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        if (mPlayer == null) {
+            return true;
+        }
+
+        int keyCode = event.getKeyCode();
+        final boolean uniqueDown = event.getRepeatCount() == 0
+                && event.getAction() == KeyEvent.ACTION_DOWN;
+        if (keyCode ==  KeyEvent.KEYCODE_HEADSETHOOK
+                || keyCode == KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE
+                || keyCode == KeyEvent.KEYCODE_SPACE) {
+            if (uniqueDown) {
+                doPauseResume();
+                show(sDefaultTimeout);
+                if (mPauseBtn != null) {
+                    mPauseBtn.requestFocus();
+                }
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_MEDIA_PLAY) {
+            if (uniqueDown && !mPlayer.isPlaying()) {
+                mPlayer.start();
+                updatePausePlayer();
+                show(sDefaultTimeout);
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_MEDIA_STOP
+                || keyCode == KeyEvent.KEYCODE_MEDIA_PAUSE) {
+            if (uniqueDown && mPlayer.isPlaying()) {
+                mPlayer.pause();
+                updatePausePlayer();
+                show(sDefaultTimeout);
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_VOLUME_DOWN
+                || keyCode == KeyEvent.KEYCODE_VOLUME_UP
+                || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
+            // don't show the controls for volume adjustment
+            return super.dispatchKeyEvent(event);
+        } else if (keyCode == KeyEvent.KEYCODE_BACK || keyCode == KeyEvent.KEYCODE_MENU) {
+            if (uniqueDown) {
+                hide();
+            }
+            return true;
+        }
+
+        show(sDefaultTimeout);
+        return super.dispatchKeyEvent(event);
+    }
 
     /**
-     * 更新播放按钮状态
+     * 更新播放暂停按钮状态
      */
     public void updatePausePlayer() {
         if (mPlayer == null || mRoot == null || mPauseBtn == null) {
@@ -213,6 +277,27 @@ public class VideoControllerView extends FrameLayout {
         if (mPlayer.isFullScreen()) {
 
         }
+    }
+
+    private void doPauseResume() {
+        if (mPlayer == null) {
+            return;
+        }
+
+        if (mPlayer.isPlaying()) {
+            mPlayer.pause();
+        } else {
+            mPlayer.start();
+        }
+        updatePausePlayer();
+    }
+
+    private void doToggleFullscreen() {
+        if (mPlayer == null) {
+            return;
+        }
+
+        mPlayer.toggleFullScreen();
     }
 
     private int setProgress() {
