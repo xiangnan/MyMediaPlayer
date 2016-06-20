@@ -1,4 +1,4 @@
-package com.royole.yogu.videoplayerlibrary;
+package com.royole.yogu.videoplayerlibrary.utils;
 
 import java.util.Formatter;
 import java.util.Locale;

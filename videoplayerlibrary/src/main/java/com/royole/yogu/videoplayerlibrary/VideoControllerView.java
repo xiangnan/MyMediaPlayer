@@ -15,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.royole.yogu.videoplayerlibrary.utils.StringUtils;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -34,11 +36,9 @@ public class VideoControllerView extends FrameLayout {
     /**
      * 控件
      */
-    private ImageButton mPrevBtn;//上一个
-    private ImageButton mRewBtn;//快退
+    private ImageButton mBackBtn;//快退
     private ImageButton mPauseBtn;//暂停播放按钮
     private ImageButton mfwdBtn;//快进
-    private ImageButton mNextBtn;//下一个
     private ImageButton mFullScreenBtn;
     private SeekBar mProgress;//进度条
     private TextView mEndTime;
@@ -94,18 +94,14 @@ public class VideoControllerView extends FrameLayout {
      * @param v
      */
     private void initControllerView(View v) {
-        mPrevBtn = (ImageButton) v.findViewById(R.id.prevBtn);
-
-        mRewBtn = (ImageButton) v.findViewById(R.id.rewBtn);
-        mRewBtn.setOnClickListener(mRewListener);
+        mBackBtn = (ImageButton) v.findViewById(R.id.rewBtn);
+        mBackBtn.setOnClickListener(mRewListener);
 
         mPauseBtn = (ImageButton) v.findViewById(R.id.pauseBtn);
         mPauseBtn.setOnClickListener(mPauseListener);
 
         mfwdBtn = (ImageButton) v.findViewById(R.id.fwdBtn);
-        mRewBtn.setOnClickListener(mfwdListener);
-
-        mNextBtn = (ImageButton) v.findViewById(R.id.nextBtn);
+        mBackBtn.setOnClickListener(mfwdListener);
 
         mFullScreenBtn = (ImageButton) v.findViewById(R.id.fullScreen);
         mFullScreenBtn.setOnClickListener(mFullscreenListener);
@@ -331,8 +327,8 @@ public class VideoControllerView extends FrameLayout {
             if (mPauseBtn != null && !mPlayer.canPause()) {
                 mPauseBtn.setEnabled(false);
             }
-            if (mRewBtn != null && !mPlayer.canSeekBackward()) {
-                mRewBtn.setEnabled(false);
+            if (mBackBtn != null && !mPlayer.canSeekBackward()) {
+                mBackBtn.setEnabled(false);
             }
             if (mfwdBtn != null && !mPlayer.canSeekForward()) {
                 mfwdBtn.setEnabled(false);
