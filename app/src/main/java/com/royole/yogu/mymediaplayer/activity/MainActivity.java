@@ -18,11 +18,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.reflect.TypeToken;
 import com.royole.yogu.mymediaplayer.R;
 import com.markmao.pulltorefresh.widget.XListView;
 import com.royole.yogu.mymediaplayer.utils.StringUtils;
 import com.royole.yogu.videoplayerlibrary.VideoPlayerActivity;
 import com.royole.yogu.videoplayerlibrary.model.Video;
+import com.google.gson.Gson;
 
 public class MainActivity extends Activity implements XListView.IXListViewListener {
 
@@ -32,6 +34,7 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
     private List<Video> mData = new ArrayList<Video>();
     private VedioAdapter mAdapter;
     private Handler mHandler;
+    private Gson gson = new Gson();
 
     // Lifecycle
     @Override
@@ -78,7 +81,8 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
 
     private void geneItems() {
         for (int i = 0; i != 5; ++i) {
-            mData.add(new Video("" + i, "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.list_item_img_shot, "title"+i, "desc"));
+            mData.add(new Video("" + i, "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.list_item_img_shot1, "title"+i, "desc"));
+//            mData.add(gson.fromJson(jsonData, new TypeToken<List<Video>>().getType());
         }
     }
 
