@@ -21,6 +21,7 @@ import java.util.List;
 import com.google.gson.reflect.TypeToken;
 import com.royole.yogu.mymediaplayer.R;
 import com.markmao.pulltorefresh.widget.XListView;
+import com.royole.yogu.mymediaplayer.utils.FileUtils;
 import com.royole.yogu.mymediaplayer.utils.StringUtils;
 import com.royole.yogu.videoplayerlibrary.VideoPlayerActivity;
 import com.royole.yogu.videoplayerlibrary.model.Video;
@@ -35,6 +36,7 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
     private VedioAdapter mAdapter;
     private Handler mHandler;
     private Gson gson = new Gson();
+    private String jsonData;
 
     // Lifecycle
     @Override
@@ -67,23 +69,25 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
         mListView.setRefreshTime(StringUtils.getTime());
         mAdapter = new VedioAdapter(this);
         mListView.setAdapter(mAdapter);
-        mListView.setOnItemClickListener(new OnItemClickListener(){
+        mListView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // because of the header, the position = position - 1
-                Log.d(Tag,"position:"+(position-1));
+                Log.d(Tag, "position:" + (position - 1));
                 Intent intent = new Intent(MainActivity.this, VideoPlayerActivity.class);
-                intent.putExtra("path", mData.get(position-1).getvURL());
+                intent.putExtra("path", mData.get(position - 1).getvURL());
                 startActivity(intent);
             }
         });
     }
 
     private void geneItems() {
-        for (int i = 0; i != 5; ++i) {
-            mData.add(new Video("" + i, "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.list_item_img_shot1, "title"+i, "desc"));
-//            mData.add(gson.fromJson(jsonData, new TypeToken<List<Video>>().getType());
-        }
+        jsonData = FileUtils.readAssertJson(this,"video_test.json");
+        ArrayList<Video> results = gson.fromJson(jsonData, new TypeToken<List<Video>>(){}.getType());
+        mData.addAll(results);
+//        for (int i = 0; i != 5; ++i) {
+//            mData.add(new Video("" + i, "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4", R.drawable.list_item_img_shot1, "title"+i, "desc"));
+//        }
     }
 
     private void onLoad() {
@@ -144,8 +148,8 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
-            Log.d(Tag,"position:"+position);
-            holder.img.setBackgroundResource((Integer) mData.get(position).getImageShotPath());
+            Log.d(Tag, "position:" + position);
+            holder.img.setBackgroundResource(getResources().getIdentifier( mData.get(position).getImageShotPath(), "drawable", getApplicationInfo().packageName));
             holder.title.setText((String) mData.get(position).getvTitle());
             holder.desc.setText((String) mData.get(position).getDesc());
 

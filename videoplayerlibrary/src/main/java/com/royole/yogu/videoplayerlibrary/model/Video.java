@@ -15,13 +15,13 @@ public class Video {
     /** vedio web url */
     private String vURL;
     /** vedio img shot */
-    private int imageShotPath;
+    private String imageShotPath;
     /** vedio name */
     private String vTitle;
     /** vedio desc */
     private String desc;
 
-    public Video(String vID, String vURL, int imageShotPath, String vTitle, String desc) {
+    public Video(String vID, String vURL, String imageShotPath, String vTitle, String desc) {
         this.vID = vID;
         this.vURL = vURL;
         this.imageShotPath = imageShotPath;
@@ -45,11 +45,11 @@ public class Video {
         this.vURL = vURL;
     }
 
-    public int getImageShotPath() {
+    public String getImageShotPath() {
         return imageShotPath;
     }
 
-    public void setImageShotPath(int imageShotPath) {
+    public void setImageShotPath(String imageShotPath) {
         this.imageShotPath = imageShotPath;
     }
 
