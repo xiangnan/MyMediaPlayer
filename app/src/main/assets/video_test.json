@@ -1,37 +1,37 @@
 [
   {
     "vID": 1,
-    "vURL": "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
-    "imageShotPath": "list_item_img_shot1.jpg",
-    "vTitle": "NBA骑士抢七胜勇士",
+    "vURL": "big_buck_bunny.mp4",
+    "imageShotPath": "list_item_img_shot1",
+    "vTitle": "NBA骑士抢七胜勇士1",
     "desc": "队史首冠！詹姆斯献三双"
   },
   {
     "vID": 2,
     "vURL": "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
-    "imageShotPath": "list_item_img_shot2.jpg",
-    "vTitle": "NBA骑士抢七胜勇士",
+    "imageShotPath": "list_item_img_shot2",
+    "vTitle": "NBA骑士抢七胜勇士2",
     "desc": "队史首冠！詹姆斯献三双"
   },
   {
     "vID": 3,
     "vURL": "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
-    "imageShotPath": "list_item_img_shot3.jpg",
-    "vTitle": "NBA骑士抢七胜勇士",
+    "imageShotPath": "list_item_img_shot3",
+    "vTitle": "NBA骑士抢七胜勇士3",
     "desc": "队史首冠！詹姆斯献三双"
   },
   {
     "vID": 4,
     "vURL": "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
-    "imageShotPath": "list_item_img_shot4.jpg",
-    "vTitle": "NBA骑士抢七胜勇士",
+    "imageShotPath": "list_item_img_shot4",
+    "vTitle": "NBA骑士抢七胜勇士4",
     "desc": "队史首冠！詹姆斯献三双"
   },
   {
     "vID": 5,
     "vURL": "http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4",
-    "imageShotPath": "list_item_img_shot5.jpg",
-    "vTitle": "NBA骑士抢七胜勇士",
+    "imageShotPath": "list_item_img_shot5",
+    "vTitle": "NBA骑士抢七胜勇士5",
     "desc": "队史首冠！詹姆斯献三双"
   }
 ]
