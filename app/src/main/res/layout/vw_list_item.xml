@@ -7,12 +7,13 @@
 
     <ImageView
         android:id="@+id/vedioShotImgView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="174dp"
+        android:layout_height="110dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="5px"
         android:layout_marginRight="5px"
-        android:src="@drawable/list_item_img_shot1" />
+        android:scaleType="centerCrop"
+        tools:src="@drawable/arrow_down" />
 
     <TextView
         android:id="@+id/titleTextView"

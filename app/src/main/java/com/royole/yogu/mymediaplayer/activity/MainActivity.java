@@ -3,6 +3,8 @@ package com.royole.yogu.mymediaplayer.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,12 +17,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.reflect.TypeToken;
-import com.royole.yogu.mymediaplayer.R;
 import com.markmao.pulltorefresh.widget.XListView;
+import com.royole.yogu.mymediaplayer.R;
 import com.royole.yogu.mymediaplayer.utils.FileUtils;
 import com.royole.yogu.mymediaplayer.utils.StringUtils;
 import com.royole.yogu.videoplayerlibrary.VideoPlayerActivity;
@@ -43,21 +47,9 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         initView();
     }
 
-    /**
-     * the activity becomes visible and interactive
-     * @param hasFocus
-     */
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            mListView.autoRefresh();
-        }
-    }
     // End Lifecycle
 
     // Private Method
@@ -148,7 +140,14 @@ public class MainActivity extends Activity implements XListView.IXListViewListen
             Log.d(Tag, "position:" + position);
 //            Log.d(Tag,"Image:"+getResources().getIdentifier(mData.get(position).getImageShotPath(), "drawable", getApplicationInfo().packageName));
 //            holder.img.setBackgroundResource(getResources().getIdentifier(mData.get(position).getImageShotPath(), "drawable", getApplicationInfo().packageName));
-            holder.img.setBackgroundResource(getResources().getIdentifier("arrow_down", "drawable", getApplicationInfo().packageName));
+            InputStream in= null;
+            try {
+                in = MainActivity.this.getAssets().open(mData.get(position).getImageShotPath()+".jpg");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Bitmap bmp= BitmapFactory.decodeStream(in);
+            holder.img.setImageBitmap(bmp);
             holder.title.setText((String) mData.get(position).getvTitle());
             holder.desc.setText((String) mData.get(position).getDesc());
 

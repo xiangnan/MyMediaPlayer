@@ -44,7 +44,7 @@ public class VideoController extends FrameLayout implements SeekBar.OnSeekBarCha
 
     private boolean mShowing;// if controller is showing
     private boolean mDragging;// if seekbar is dragging
-    private static final int sDefaultTimeout = 3000;//默认3s控制界面消失
+    private static final int sDefaultTimeout = 3000;//fade out after 3s on default
 
     private Handler mHandler = new MessageHandler(this);
     private MediaControlImpl mPlayer;
@@ -79,6 +79,7 @@ public class VideoController extends FrameLayout implements SeekBar.OnSeekBarCha
         mForwardBtn.setOnClickListener(this);
         mExpandBtn.setOnClickListener(this);
         mProgress = (SeekBar) v.findViewById(R.id.controllerBar);
+        mProgress.setOnSeekBarChangeListener(this);
         mProgress.setMax(1000);
         mEndTime = (TextView) v.findViewById(R.id.time);
         mCurrentTime = (TextView) v.findViewById(R.id.curTime);
