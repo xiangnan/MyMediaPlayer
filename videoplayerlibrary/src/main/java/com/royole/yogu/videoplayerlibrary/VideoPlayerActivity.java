@@ -13,24 +13,26 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.royole.yogu.videoplayerlibrary.utils.DensityUtil;
 import com.royole.yogu.videoplayerlibrary.view.VideoController;
 
-public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener,MediaPlayer.OnBufferingUpdateListener, VideoController.MediaControlImpl {
+public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callback, MediaPlayer.OnPreparedListener,MediaPlayer.OnBufferingUpdateListener,MediaPlayer.OnCompletionListener, VideoController.MediaControlImpl {
     private String Tag = "VideoPlayerActivity";
 
     private SurfaceView mVideoSurface;
     private MediaPlayer mPlayer;
     private VideoController mController;
-    private FrameLayout mAnchorView;
+    private FrameLayout mAnchorView;//surfaceView container
     private String mPath;
     private int mCurrentPosition;
     private int mCurrentBufferPercentage;
-    private View mProgressBarView;
+    private View mProgressBarView;//loading progressBar container
+    private View mReplayView;// display replay button
+    private View mReplayBtn;
+
 
     //lifecycle
     @Override
@@ -55,8 +57,21 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         mController.setMediaPlayer(this);
         mAnchorView = (FrameLayout) findViewById(R.id.videoSurfaceContainer);
         mController.setAnchorView(mAnchorView);
+        //set shrink mode
         LinearLayout.LayoutParams linearLayoutParams=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, (int)(DensityUtil.getHeightInPx(this)*0.5));
         mAnchorView.setLayoutParams(linearLayoutParams);
+        //replay
+        mReplayView = findViewById(R.id.replayContainer);
+        mReplayBtn = findViewById(R.id.replayBtn);
+        mReplayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mReplayView.setVisibility(View.GONE);
+                mController.setVisibility(View.VISIBLE);
+                mController.doPauseResume();
+                mController.setProgress();
+            }
+        });
     }
 
     @Override
@@ -140,6 +155,7 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
             // 设置相关的监听器
             mPlayer.setOnPreparedListener(this);
             mPlayer.setOnBufferingUpdateListener(this);
+            mPlayer.setOnCompletionListener(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -154,9 +170,6 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
     // Implement MediaPlayer.OnPreparedListener
     @Override
     public void onPrepared(MediaPlayer mp) {
-        mProgressBarView = findViewById(R.id.progressbar);
-        mController.setMediaPlayer(this);
-        mController.setAnchorView((FrameLayout) findViewById(R.id.videoSurfaceContainer));
         mController.show();
         mPlayer.start();
         this.seekTo(mCurrentPosition);
@@ -187,6 +200,14 @@ public class VideoPlayerActivity extends Activity implements SurfaceHolder.Callb
         mCurrentBufferPercentage = percent;
     }
     // End OnBufferingUpdateListener
+
+    // Implement OnCompletionListener
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        mReplayView.setVisibility(View.VISIBLE);
+        mController.setVisibility(View.GONE);
+    }
+    // End OnCompletionListener
 
     // Implement VideoMediaController.MediaPlayerControl
     @Override

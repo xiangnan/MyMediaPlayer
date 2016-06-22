@@ -84,51 +84,7 @@ public class VideoController extends FrameLayout implements SeekBar.OnSeekBarCha
         mEndTime = (TextView) v.findViewById(R.id.time);
         mCurrentTime = (TextView) v.findViewById(R.id.curTime);
     }
-    private void doPauseResume() {
-        if (mPlayer == null) {
-            return;
-        }
 
-        if (mPlayer.isPlaying()) {
-            mPlayer.pause();
-        } else {
-            mPlayer.start();
-        }
-        updatePausePlay();
-    }
-
-    private void doToggleFullscreen() {
-        if (mPlayer == null) {
-            return;
-        }
-
-        mPlayer.toggleFullScreen();
-    }
-
-    private int setProgress() {
-        if (mPlayer == null || mDragging) {
-            return 0;
-        }
-        int position = mPlayer.getCurrentPosition();
-        int duration = mPlayer.getDuration();
-        Log.d(Tag, "position:" + position + ",duration:" + duration);
-
-        if (mProgress != null) {
-            if (duration > 0) {
-                long pos = 1000L * position / duration;
-                Log.d(Tag,"pos:"+pos);
-                mProgress.setProgress((int) pos);
-            }
-            int percent = mPlayer.getBufferPercentage();
-            Log.d(Tag,"percent:"+percent);
-            mProgress.setSecondaryProgress(percent * 10);
-        }
-        if (mEndTime != null)
-            mEndTime.setText(StringUtils.stringForTime(duration));
-        if (mCurrentTime != null)
-            mCurrentTime.setText(StringUtils.stringForTime(position));
-        return position;
-    }
 
     private void disableUnsupportedButtons() {
         if (mPlayer == null) {
@@ -213,6 +169,51 @@ public class VideoController extends FrameLayout implements SeekBar.OnSeekBarCha
         } else {
             mPauseBtn.setImageResource(R.drawable.ic_media_play);
         }
+    }
+    public void doPauseResume() {
+        if (mPlayer == null) {
+            return;
+        }
+
+        if (mPlayer.isPlaying()) {
+            mPlayer.pause();
+        } else {
+            mPlayer.start();
+        }
+        updatePausePlay();
+    }
+
+    public void doToggleFullscreen() {
+        if (mPlayer == null) {
+            return;
+        }
+
+        mPlayer.toggleFullScreen();
+    }
+
+    public int setProgress() {
+        if (mPlayer == null || mDragging) {
+            return 0;
+        }
+        int position = mPlayer.getCurrentPosition();
+        int duration = mPlayer.getDuration();
+        Log.d(Tag, "position:" + position + ",duration:" + duration);
+
+        if (mProgress != null) {
+            if (duration > 0) {
+                long pos = 1000L * position / duration;
+                Log.d(Tag,"pos:"+pos);
+                mProgress.setProgress((int) pos);
+            }
+            int percent = mPlayer.getBufferPercentage();
+            Log.d(Tag,"percent:"+percent);
+            mProgress.setSecondaryProgress(percent * 10);
+        }
+        if (mEndTime != null)
+            mEndTime.setText(StringUtils.stringForTime(duration));
+        if (mCurrentTime != null)
+            mCurrentTime.setText(StringUtils.stringForTime(position));
+        return position;
     }
 
     /**
