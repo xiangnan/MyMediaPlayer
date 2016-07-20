@@ -21,6 +21,10 @@ import java.lang.ref.WeakReference;
 
 /**
  * Custom MediaController
+ * 1.use native player
+ *   Action:ACTION_VIEW Data:Uri Type:MIME
+ * 2.use VideoView + MediaController (ps:VideoView extents SurfaceView)
+ * 3.MediaPlayer + SurfaceView or MediaPlayer + MediaController (ps: more flexible)
  * Author  yogu
  * Since  2016/6/21
  */
